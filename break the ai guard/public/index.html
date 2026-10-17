@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Break the AI Guard</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<canvas id="ground" aria-hidden="true"></canvas>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <button class="brand" id="brand" type="button" aria-label="AI Association, Qatar University">
+      <img src="logo.png" alt="">
+      <span class="bt"><b>ARTIFICIAL INTELLIGENCE ASSOCIATION</b><span>رابطة الذكاء الاصطناعي · GAMERS WEEK</span></span>
+    </button>
+    <div class="tools">
+      <div class="ai-badge" id="aiBadge"><i></i><span id="aiText">AI: CONNECTING…</span></div>
+      <button class="chip join-chip" id="joinBtn" type="button" hidden><span data-i="join">JOIN</span> <span id="joinChipAddr"></span></button>
+      <button class="chip" id="langBtn" type="button">عربي</button>
+      <button class="chip" id="musicBtn" type="button" aria-pressed="true">MUSIC ON</button>
+      <button class="chip" id="muteBtn" type="button" aria-pressed="false">SOUND ON</button>
+    </div>
+  </header>
+
+  <!-- TITLE -->
+  <main class="screen" id="scrTitle">
+    <section class="hero">
+      <div>
+        <h1 class="logo-type"><span class="l1" data-i="title1">BREAK THE</span><span class="l2" data-i="title2">AI GUARD</span></h1>
+        <p class="tagline" data-i="tagline">CAN YOU BEAT THE AI?</p>
+        <p class="tag-ar" data-i="tagAlt">هل تستطيع هزيمة الذكاء الاصطناعي؟</p>
+      </div>
+      <div class="robot-stage">
+        <canvas id="titleBot" width="256" height="256" aria-hidden="true"></canvas>
+        <div class="speech px cyan" id="titleSpeech">Psst… I'm guarding 5 secret passwords. You'll never get them.</div>
+      </div>
+    </section>
+
+    <section class="start">
+      <div class="card px">
+        <h2 data-i="howTitle">HOW TO PLAY</h2>
+        <ol class="steps">
+          <li><span class="n">1</span><span data-i="how1">Chat with the robot guard. Type anything, in English or Arabic.</span></li>
+          <li><span class="n">2</span><span data-i="how2">Trick it into leaking the secret password.</span></li>
+          <li><span class="n">3</span><span data-i="how3">Type the password into the yellow box to unlock the next level.</span></li>
+        </ol>
+        <p class="rules-line" id="rulesLine">5 LEVELS · 3 HEARTS · 150s</p>
+        <form id="startForm" autocomplete="off">
+          <label class="lbl" for="playerName" data-i="nameLbl" style="margin-top:16px">PLAYER NAME</label>
+          <input class="field" id="playerName" maxlength="16" data-ph="namePh" placeholder="Type your name">
+          <button class="btn big" type="submit" id="playBtn"><span data-i="play">PLAY</span><span class="tri"></span></button>
+        </form>
+      </div>
+      <div class="card px cyan">
+        <h2 data-i="vsTitle">HUMANS vs AI</h2>
+        <div class="versus">
+          <div class="h"><div class="num" id="humansN">0</div><small data-i="humans">HUMANS</small></div>
+          <div class="vs">VS</div>
+          <div class="a"><div class="num" id="aiN">0</div><small data-i="aiWins">AI</small></div>
+        </div>
+        <h2 data-i="today">TODAY'S TOP PLAYERS</h2>
+        <ol class="board" id="board"></ol>
+      </div>
+      <div class="card px yellow">
+        <h2 data-i="scanTitle">SCAN ME</h2>
+        <div class="qr-row">
+          <canvas class="qr" id="qrInsta" aria-label="QR code: AIQU on Instagram"></canvas>
+          <div class="qr-txt"><b data-i="followUs">FOLLOW US</b><span>@aiqu.qa</span><small data-i="followSub">Instagram</small></div>
+        </div>
+        <div class="qr-row">
+          <canvas class="qr" id="qrAttend" aria-label="QR code: attendance form" hidden></canvas>
+          <div class="qr qr-empty" id="qrAttendEmpty" aria-hidden="true">?</div>
+          <div class="qr-txt"><b data-i="attendance">ATTENDANCE</b><small id="attendSub">Link coming soon</small></div>
+        </div>
+        <h2 style="margin-top:20px" data-i="levelsTitle">THE GUARDS</h2>
+        <ol class="board" id="guardList"></ol>
+      </div>
+    </section>
+  </main>
+
+  <!-- PLAY -->
+  <main class="screen" id="scrPlay" hidden>
+    <div class="hud px dim">
+      <div class="grp"><span class="k" data-i="level">LEVEL</span><div class="pips" id="pips"></div></div>
+      <div class="grp"><span class="k" data-i="lives">LIVES</span><div class="hearts" id="hearts"></div></div>
+      <div class="grp timer" id="timerGrp"><span class="k" data-i="time">TIME</span><span class="v" id="timerV">2:30</span></div>
+      <div class="grp"><span class="k" data-i="score">SCORE</span><span class="v" id="scoreV" style="color:var(--yellow)">0</span></div>
+    </div>
+    <div class="arena">
+      <aside class="guard px cyan" id="guardCard">
+        <canvas id="playBot" width="256" height="256" aria-hidden="true"></canvas>
+        <div class="nameplate" id="guardName">BYTE<small>LEVEL 1</small></div>
+        <div class="defense" id="guardDef">DEFENSE: NONE</div>
+        <div class="hint-box" id="hintBox"></div>
+        <button class="btn yellow" type="button" id="hintBtn" style="font-size:10px;padding:10px 12px" data-i="hint">HINT −15s</button>
+      </aside>
+      <section class="console px" id="console">
+        <div class="log" id="log" aria-live="polite"></div>
+        <div class="composer">
+          <form class="row" id="chatForm" autocomplete="off">
+            <input class="field" id="chatIn" maxlength="220" data-ph="chatPh" placeholder="Say something to the guard…" aria-label="Message to the guard">
+            <button class="btn cyan" type="submit" id="sendBtn" data-i="send">SEND</button>
+          </form>
+          <div class="pwlabel"><span>🔑</span><span data-i="pwLabel">PASSWORD</span><span class="counter" id="charCount"></span></div>
+          <form class="row pwrow" id="pwForm" autocomplete="off">
+            <input class="field" id="pwIn" maxlength="20" data-ph="pwPh" placeholder="Type it in English" aria-label="Password guess" spellcheck="false" autocapitalize="characters">
+            <button class="btn yellow" type="submit" id="unlockBtn" data-i="unlock">UNLOCK</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- RESULT -->
+  <main class="screen" id="scrResult" hidden>
+    <section class="result">
+      <div class="res-main px" id="resCard">
+        <canvas id="resBot" width="256" height="256" style="width:min(180px,50vw);height:auto;image-rendering:pixelated" aria-hidden="true"></canvas>
+        <h2 id="resTitle">THE AI WINS</h2>
+        <p id="resReason"></p>
+        <div class="stats">
+          <div class="stat"><span class="k" data-i="cleared">CLEARED</span><span class="v" id="resLevels">0/5</span></div>
+          <div class="stat"><span class="k" data-i="score">SCORE</span><span class="v" id="resScore" style="color:var(--yellow)">0</span></div>
+          <div class="stat"><span class="k" data-i="rank">TODAY'S RANK</span><span class="v" id="resRank">#1</span></div>
+        </div>
+        <p class="reveal" id="resReveal"></p>
+        <button class="btn big" type="button" id="againBtn"><span data-i="nextPlayer">NEXT PLAYER</span><span class="tri"></span></button>
+      </div>
+      <div class="card px cyan">
+        <h2 data-i="today">TODAY'S TOP PLAYERS</h2>
+        <ol class="board" id="board2"></ol>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- level clear overlay -->
+<div class="overlay" id="clearOv" hidden>
+  <div class="pop px yellow">
+    <div class="coins-burst"><span class="coin"></span><span class="coin"></span><span class="coin"></span></div>
+    <h2 data-i="levelClear">LEVEL CLEAR!</h2>
+    <p id="clearMsg"></p>
+    <div class="big-num" id="clearPts">+500</div>
+    <button class="btn yellow" type="button" id="nextBtn"><span data-i="nextLevel">NEXT LEVEL</span><span class="tri" style="border-left-color:var(--yellow)"></span></button>
+  </div>
+</div>
+
+<!-- join from another device -->
+<div class="overlay" id="joinOv" hidden>
+  <div class="pop px cyan" role="dialog" aria-labelledby="joinTitle">
+    <h2 id="joinTitle" data-i="joinTitle">PLAY ON YOUR PHONE</h2>
+    <p data-i="joinSub">Connect to the same Wi-Fi, then scan or type this address:</p>
+    <canvas class="qr big" id="qrJoin" aria-label="QR code: game address"></canvas>
+    <div class="join-addr" id="joinAddr"></div>
+    <div class="btns-row">
+      <button class="btn cyan" type="button" id="copyJoin" data-i="copy">COPY</button>
+      <button class="btn yellow" type="button" id="joinClose" data-i="close">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<!-- staff panel -->
+<div class="overlay" id="staffOv" hidden>
+  <div class="staff px cyan" role="dialog" aria-label="Staff settings">
+    <h2>STAFF PANEL</h2>
+    <p class="note">Open with Ctrl+Shift+S, or tap the club logo 5 times. Players shouldn't see this.</p>
+    <div class="set"><label for="setTime">Seconds per player</label><input class="num-in" id="setTime" type="number" min="60" max="600" step="10" style="width:90px"></div>
+    <div class="set"><label for="setMode">AI brain</label>
+      <select id="setMode"><option value="auto">Live AI (offline backup)</option><option value="offline">Offline guards only</option></select></div>
+    <div class="set"><label for="setLang">Default language</label>
+      <select id="setLang"><option value="en">English</option><option value="ar">العربية</option></select></div>
+    <p class="note" id="staffAiNote"></p>
+    <h2>LINKS &amp; JOIN ADDRESS</h2>
+    <p class="note">Saved into config.json. Only works on the booth laptop itself.</p>
+    <label class="stack" for="setJoin">Join address (leave empty to auto-detect)
+      <input class="field" id="setJoin" placeholder="e.g. 192.168.1.20" spellcheck="false"></label>
+    <label class="stack" for="setAttend">Attendance form link
+      <input class="field" id="setAttend" placeholder="https://forms.gle/…" spellcheck="false"></label>
+    <label class="stack" for="setInsta">Instagram link
+      <input class="field" id="setInsta" spellcheck="false"></label>
+    <div class="btns"><button class="btn cyan" type="button" id="saveLinks">SAVE LINKS</button></div>
+    <p class="note" id="linksNote"></p>
+    <h2>TODAY'S SCORES</h2>
+    <p class="note">Remove a row if a player used a rude name.</p>
+    <ul id="staffList"></ul>
+    <div class="btns">
+      <button class="btn cyan" type="button" id="testAiBtn">TEST AI</button>
+      <button class="btn" type="button" id="skipBtn">SKIP LEVEL (demo)</button>
+      <button class="btn yellow" type="button" id="staffClose">CLOSE</button>
+    </div>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
