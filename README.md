@@ -22,11 +22,7 @@ AIQU is the AI Association at Qatar University. We bring students together to le
 
 - **Mission:** make AI approachable and fun for every student, whatever their background.
 - **What we do:** workshops, competitions, student-led projects and campus events.
-- **Contact:** [add email / Instagram / LinkedIn here]
-
-## About QU Esports Club
-
-[Add one or two sentences about the QU Esports Club here.]
+- **Contact:** aiqu@qu.edu.qa
 
 ---
 
