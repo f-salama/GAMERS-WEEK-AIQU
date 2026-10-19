@@ -1,0 +1,8 @@
+# holds your real API key - never commit it
+config.json
+.env
+
+# local game data
+scores.json
+
+__pycache__/
