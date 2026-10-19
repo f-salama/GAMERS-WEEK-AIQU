@@ -37,6 +37,7 @@ Each game has its own folder with its own README, which covers the details and h
 | **Space Vision** | [One-line description] | Abdelhakim Akhadkhou | [`/space-vision`](./space-vision) |
 | **Rock Paper Scissors vs. AI** | [One-line description] | Joel Don | [`/rock-paper-scissors`](./rock-paper-scissors) |
 | **Slice Rush** | [One-line description] | Joel Don | [`/slice-rush`](./slice-rush) |
+| **Break the AI Guard** | [One-line description] | Amir Chaaben | [`/break-the-ai-guard`](./break-the-ai-guard) |
 
 
 ---
