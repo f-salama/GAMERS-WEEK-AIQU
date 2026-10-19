@@ -33,7 +33,7 @@ Each game has its own folder with its own README, which covers the details and h
 | Game | What it is | Built by | Folder |
 |---|---|---|---|
 | **Prompt Battle** | A 1v1 game where two players race to recreate the same picture using only a written prompt. AI generates the images and a judge picks the closest. | Mohammad Feras | [`/prompt-battle`](./prompt-battle) |
-| **AIQU Jeopardy** | A quiz-show game with AI-themed categories and questions, played as a live session. | Fatima | [`/jeopardy`](./jeopardy) |
+| **AIQU Jeopardy** | A quiz-show game with AI-themed categories and questions, played as a live session. | Fatima Salama | [`/jeopardy`](./jeopardy) |
 | **Space Vision** | [One-line description] | Abdelhakim Akhadkhou | [`/space-vision`](./space-vision) |
 | **Rock Paper Scissors vs. AI** | [One-line description] | Joel Don | [`/rock-paper-scissors`](./rock-paper-scissors) |
 | **Slice Rush** | [One-line description] | Joel Don | [`/slice-rush`](./slice-rush) |
